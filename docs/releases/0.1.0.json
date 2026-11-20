@@ -1,0 +1,20 @@
+{
+  "project": "readme-standards",
+  "version": "0.1.0",
+  "repository": "https://github.com/groupsum/readme-standards",
+  "workflow_run": "https://github.com/groupsum/readme-standards/actions/runs/44661406161",
+  "tag": "v0.1.0-pypi.1",
+  "commit": "98c3477",
+  "artifacts": [
+    {
+      "filename": "readme_standards-0.1.0-py3-none-any.whl",
+      "sha256": "8b6954f74180c659f7d1c52f84ba909cfde7abf5c5f8bc39f19bffd31441661f",
+      "url": "https://files.pythonhosted.org/packages/99/e9/d72ef960813f4b013ac34d39a4410e11dedc19380ef2356fbf12f6b1f984/readme_standards-0.1.0-py3-none-any.whl"
+    },
+    {
+      "filename": "readme_standards-0.1.0.tar.gz",
+      "sha256": "8c58d295fc0ab1384d27d7b56ad0915e2f52c3cbd3f4029dfda9ccda546392a5",
+      "url": "https://files.pythonhosted.org/packages/14/9a/c473a5e9b70fb5c5427ad5a0c34e3fa778b0f0f8a749cc6cbacb5faa409c/readme_standards-0.1.0.tar.gz"
+    }
+  ]
+}
