@@ -180,7 +180,17 @@ def fragments(package: Package) -> dict[str, str]:
         ("pip", "python -m pip install"),
         ("poetry", "poetry add"),
     ):
-        if name:
+        if not package.installable:
+            content = (
+                "This is a source-only workspace or test harness, not an installable distribution. "
+                + (
+                    "From its checkout, synchronize the declared environment:\n\n"
+                    + fenced("uv sync", "bash")
+                    if installer == "uv"
+                    else "Use the uv checkout workflow above; this installer does not install the harness itself."
+                )
+            )
+        elif name:
             if distribution["published"]:
                 content = fenced(f"{command} {name}", "bash")
             else:

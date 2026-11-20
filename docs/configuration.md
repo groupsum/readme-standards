@@ -39,7 +39,7 @@ The PyPI name must canonically match project.name. Other registry identities are
 because cross-ecosystem distribution names can differ.
 
 Each example has package-local `source` and `test` paths, plus either an `expected_stdout` fixture or explicit `expected_exit_code = 0`. Optional
-language defaults to python; timeout defaults to 30 seconds and is limited to 1â€“300.
+language defaults to python; timeout defaults to 30 seconds and is limited to 1ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“300.
 Source rendering supports fenced code labels; installed execution supports Python only.
 An expected stdout file may be empty when the example returns values without printing.
 Checking that a referenced test exists is not a claim that the test has executed.
@@ -101,8 +101,12 @@ Reviewed exclude patterns are needed for non-distributable fixtures and retired 
 ## Installation
 
 ```bash
-uv add --dev "readme-standards==0.1.0"
+uv add --dev "readme-standards==0.1.1"
 ```
 
 Commit the resulting dependency lock. For source development, use an explicit Git revision
 from groupsum/readme-standards. Release through the scoped workflow in docs/release.md.
+
+## Source-only Python projects
+
+When `[tool.uv].package = false`, installer fragments describe the checkout environment (`uv sync`) and explain why pip/Poetry do not install that harness. This preserves the common heading tree without inventing a wheel installation.

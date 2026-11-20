@@ -28,6 +28,7 @@ class Package:
     project: dict
     settings: dict
     brand: dict
+    installable: bool = True
 
     @property
     def name(self) -> str:
@@ -124,7 +125,13 @@ def load_package(root: Path) -> Package:
                 raise ConfigurationError(f"brand {key} must be an absolute HTTPS URL")
         if not all(isinstance(v, str) and v.strip() for v in brand.values()):
             raise ConfigurationError("brand fields must be nonempty strings")
-        package = Package(root, project, settings, brand)
+        package = Package(
+            root,
+            project,
+            settings,
+            brand,
+            data.get("tool", {}).get("uv", {}).get("package", True) is not False,
+        )
         package.readme  # Validate containment, including symlinks.
         for key in ("license_file", "notice_file"):
             if key in settings:
