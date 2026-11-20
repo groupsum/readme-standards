@@ -24,9 +24,9 @@ jobs:
           RELEASE_REF: ${{ github.ref }}
         run: |
           python - <<'PY'
-          import os, pathlib, tomllib
+          import os, pathlib, re, tomllib
           version = tomllib.loads(pathlib.Path('pyproject.toml').read_text())['project']['version']
-          assert os.environ['RELEASE_REF'] == f'refs/tags/v{version}', 'Dispatch this workflow on its version tag'
+          assert re.fullmatch(rf'refs/tags/v{re.escape(version)}(?:-pypi\.[1-9][0-9]*)?', os.environ['RELEASE_REF']), 'Dispatch on the version tag or an immutable publication-attempt tag'
           PY
       - run: uv sync --locked --group dev
       - run: uv run ruff check .
@@ -44,14 +44,20 @@ jobs:
 
   publish:
     needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: pypi
     permissions:
       contents: read
       actions: read
       id-token: write
-    uses: cobycloud/actions/.github/workflows/reusable-pypi-publish.yml@64fbe4c42d7e6f3e51f4843b4603fde776b89b7e
-    with:
-      environment: pypi
-      publish-mode: trusted
-      artifact-name: pypi-distributions
-      packages-dir: dist
-      skip-existing: false
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: pypi-distributions
+          path: dist
+      - uses: cobycloud/actions/actions/pypi-publish@64fbe4c42d7e6f3e51f4843b4603fde776b89b7e
+        with:
+          publish-mode: trusted
+          packages-dir: dist
+          skip-existing: false
