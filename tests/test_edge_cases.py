@@ -5,7 +5,7 @@ from readme_standards.config import ConfigurationError, load_package
 from readme_standards.render import render, repair
 
 
-@pytest.mark.parametrize("name", ["pip", "uv", "Overview"])
+@pytest.mark.parametrize("name", ["pip", "uv", "Overview", "Summary"])
 def test_package_title_can_equal_a_fixed_section(package, name):
     manifest = package.root / "pyproject.toml"
     manifest.write_text(
@@ -43,3 +43,11 @@ def test_positive_claim_requires_evidence(package):
     manifest.write_text(text, encoding="utf-8")
     with pytest.raises(ConfigurationError, match="evidence"):
         load_package(package.root)
+
+
+def test_authored_preamble_must_be_moved_under_overview(package):
+    text = "Do not discard this introductory prose.\n\n" + package.readme.read_text("utf-8")
+    package.readme.write_text(text, encoding="utf-8")
+    assert any(d.rule == "heading.preamble" for d in check(package))
+    with pytest.raises(ConfigurationError, match="precedes"):
+        repair(text, package)

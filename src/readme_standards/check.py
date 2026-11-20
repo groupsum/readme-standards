@@ -47,6 +47,8 @@ def check(package: Package) -> list[Diagnostic]:
         return issues
     text = path.read_text("utf-8-sig")
     headings, separators = parse(text)
+    if headings and "".join(text.splitlines(keepends=True)[: headings[0].line - 1]).strip():
+        fail("heading.preamble", "the package-name H1 must be the first document element")
     expected = outline(package.name)
     by_title = {row["title"]: row for row in expected[1:]}
     order = {row["id"]: i for i, row in enumerate(expected)}
@@ -173,7 +175,7 @@ def check(package: Package) -> list[Diagnostic]:
     authored = {s.title: s for s in SECTIONS if s.content == "authored"}
     seen_bodies = {}
     for heading in headings:
-        if heading.title not in authored:
+        if heading.level == 1 or heading.title not in authored:
             continue
         body = visible(heading.body)
         prose = " ".join(t.content for t in PARSER.parse(body) if t.type == "inline")
