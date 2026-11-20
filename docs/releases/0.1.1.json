@@ -1,0 +1,16 @@
+{
+  "project": "readme-standards",
+  "version": "0.1.1",
+  "repository": "https://github.com/groupsum/readme-standards",
+  "run": "https://github.com/groupsum/readme-standards/actions/runs/44661793967",
+  "artifacts": [
+    {
+      "filename": "readme_standards-0.1.1-py3-none-any.whl",
+      "sha256": "c7ecb960a5a7587bbbd0a81840bcb86ffff11f6930da1cdf2c0876a9f294327d"
+    },
+    {
+      "filename": "readme_standards-0.1.1.tar.gz",
+      "sha256": "999aa59f1a05b1907482330dd4dfb3fccc1b9d6043ce66464e0cdb65e09f8e51"
+    }
+  ]
+}
