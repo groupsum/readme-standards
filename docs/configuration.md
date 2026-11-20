@@ -38,7 +38,7 @@ all three of downloads_url, downloads_image, and downloads_label. Registry order
 The PyPI name must canonically match project.name. Other registry identities are explicit
 because cross-ecosystem distribution names can differ.
 
-Each example has package-local `source`, `expected_stdout`, and `test` paths. Optional
+Each example has package-local `source` and `test` paths, plus either an `expected_stdout` fixture or explicit `expected_exit_code = 0`. Optional
 language defaults to python; timeout defaults to 30 seconds and is limited to 1â€“300.
 Source rendering supports fenced code labels; installed execution supports Python only.
 An expected stdout file may be empty when the example returns values without printing.

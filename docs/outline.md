@@ -66,6 +66,6 @@ Every row is required once. H1 is the manifest package name; every other label i
 - `container`: child sections supply content; direct introductory prose is optional.
 - `authored`: nonempty explanatory prose is required; unresolved placeholders and bare applicability statements fail. Concrete reasons for non-applicability are accepted.
 - `generated`: the exact managed fragment is required; author additions outside its markers are optional.
-- `example`: maintained source is rendered in a managed region; source, expected stdout, and a test reference are required. Explanatory prose outside the region is optional.
+- `example`: maintained source is rendered in a managed region; source, an expected-output or successful-exit contract, and a test reference are required. Explanatory prose outside the region is optional.
 
 These mechanical checks do not judge semantic truth. Review claims and run installed examples. More detailed obligations for prose are described in docs/authoring.md.

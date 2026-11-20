@@ -62,10 +62,12 @@
       }
     },
     "example": {
-      "type": "object", "additionalProperties": false, "required": ["source", "expected_stdout", "test"],
+      "type": "object", "additionalProperties": false, "required": ["source", "test"],
+      "anyOf": [{"required": ["expected_stdout"]}, {"required": ["expected_exit_code"]}],
       "properties": {
         "source": {"type": "string", "minLength": 1},
         "expected_stdout": {"type": "string", "minLength": 1},
+        "expected_exit_code": {"const": 0},
         "test": {"type": "string", "minLength": 1},
         "language": {"type": "string", "pattern": "^[a-zA-Z0-9_+-]+$", "default": "python"},
         "timeout": {"type": "integer", "minimum": 1, "maximum": 300, "default": 30}

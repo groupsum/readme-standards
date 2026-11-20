@@ -1,6 +1,5 @@
 """Read-only diagnostics for heading structure, authored presence, and derived facts."""
 
-import ast
 import json
 import re
 from collections import Counter
@@ -207,6 +206,8 @@ def check(package: Package) -> list[Diagnostic]:
             seen_bodies[normalized] = heading.title
     for key, example in package.settings["examples"].items():
         for field in ("source", "expected_stdout", "test"):
+            if field not in example:
+                continue
             try:
                 source = package.local(example[field])
                 if not source.is_file() or (
@@ -220,7 +221,9 @@ def check(package: Package) -> list[Diagnostic]:
                 fail("example.invalid", str(error))
         if example.get("language", "python") == "python":
             try:
-                ast.parse(package.local(example["source"]).read_text("utf-8"))
+                compile(
+                    package.local(example["source"]).read_text("utf-8"), example["source"], "exec"
+                )
             except (SyntaxError, OSError, ConfigurationError) as error:
                 fail("example.syntax", f"{key}: {error}")
     for field in ("license_file", "notice_file"):

@@ -111,8 +111,14 @@ def run_examples(package: Package, wheel: Path) -> None:
                 check=True,
                 timeout=example.get("timeout", 30),
             )
-            expected = package.local(example["expected_stdout"]).read_text("utf-8")
-            if result.stdout.replace("\r\n", "\n") != expected.replace("\r\n", "\n"):
+            expected = (
+                package.local(example["expected_stdout"]).read_text("utf-8")
+                if "expected_stdout" in example
+                else None
+            )
+            if expected is not None and result.stdout.replace("\r\n", "\n") != expected.replace(
+                "\r\n", "\n"
+            ):
                 raise ValueError(
                     f"{name}: stdout differs from {example['expected_stdout']}: {result.stdout!r}"
                 )

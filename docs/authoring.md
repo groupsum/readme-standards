@@ -46,7 +46,7 @@ repeated across sections. Structural completeness does not prove semantic adequa
 
 Generated entry points and legal/registry links need no duplicate authored prose.
 Container introductions and additional diagrams, tables, explanations, or examples are
-optional. Source, expected stdout fixture, and test reference are required for Quick Start
+optional. Source, an expected-output or successful-exit contract, and test reference are required for Quick Start
 and Usage. Positive claims require evidence. A no-runtime planning package must demonstrate
 its real limited contract rather than invent a runtime capability.
 
