@@ -39,8 +39,9 @@ The PyPI name must canonically match project.name. Other registry identities are
 because cross-ecosystem distribution names can differ.
 
 Each example has package-local `source`, `expected_stdout`, and `test` paths. Optional
-language defaults to python; timeout defaults to 30 seconds and is limited to 1–300.
+language defaults to python; timeout defaults to 30 seconds and is limited to 1â€“300.
 Source rendering supports fenced code labels; installed execution supports Python only.
+An expected stdout file may be empty when the example returns values without printing.
 Checking that a referenced test exists is not a claim that the test has executed.
 
 Each status has `label` and an HTTPS `url`; optional evidence_file points to local JSON.

@@ -209,10 +209,12 @@ def check(package: Package) -> list[Diagnostic]:
         for field in ("source", "expected_stdout", "test"):
             try:
                 source = package.local(example[field])
-                if not source.is_file() or not source.read_text("utf-8").strip():
+                if not source.is_file() or (
+                    field != "expected_stdout" and not source.read_text("utf-8").strip()
+                ):
                     fail(
                         "example.missing",
-                        f"{key}.{field} must reference a nonempty file: {example[field]}",
+                        f"{key}.{field} must reference an existing file (source and test must be nonempty): {example[field]}",
                     )
             except (OSError, ConfigurationError) as error:
                 fail("example.invalid", str(error))
