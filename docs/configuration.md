@@ -97,12 +97,11 @@ directories, virtual environments, build/dist, node_modules, and cache trees are
 The initial adapter does not inventory every historical release or other ecosystem manifests.
 Reviewed exclude patterns are needed for non-distributable fixtures and retired packages.
 
-## Installation before PyPI publication
+## Installation
 
 ```bash
-uv add --dev "readme-standards @ git+https://github.com/groupsum/readme-standards.git@master"
+uv add --dev "readme-standards==0.1.0"
 ```
 
-Commit the resulting dependency lock to pin the resolved source revision. Do not assume
-that a project with the same name on PyPI is this distribution. No PyPI publication is
-performed by repository creation.
+Commit the resulting dependency lock. For source development, use an explicit Git revision
+from groupsum/readme-standards. Release through the scoped workflow in docs/release.md.

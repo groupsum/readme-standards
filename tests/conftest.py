@@ -17,6 +17,7 @@ def package_factory():
         source = (REPOSITORY / "pyproject.toml").read_text("utf-8")
         settings = "[tool.readme_standards]" + source.split("[tool.readme_standards]", 1)[1]
         settings = settings.replace('name = "readme-standards"', 'name = "example-package"')
+        settings = settings.replace("published = true", "published = false")
         project = (
             '[project]\nname = "example-package"\nversion = "0.1.0"\n'
             'description = "A fixture package for README policy tests."\n'

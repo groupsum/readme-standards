@@ -5,7 +5,7 @@
 <p align="center"><strong>readme-standards</strong></p>
 <p align="center">Versioned package README generation, authoring checks, and pytest gates.</p>
 <p align="center">
-<a href="https://pypi.org/project/readme-standards/"><img alt="pypi: readme-standards unpublished" src="https://img.shields.io/static/v1?label=pypi&amp;message=readme-standards%20unpublished&amp;color=525252"></a>
+<a href="https://pypi.org/project/readme-standards/"><img alt="pypi: readme-standards" src="https://img.shields.io/pypi/v/readme-standards"></a>
 <a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Source version: 0.1.0" src="https://img.shields.io/static/v1?label=Source%20version&amp;message=0.1.0&amp;color=525252"></a>
 <a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Python: &gt;=3.11" src="https://img.shields.io/static/v1?label=Python&amp;message=%3E%3D3.11&amp;color=525252"></a>
 <a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Layer: developer-tools" src="https://img.shields.io/static/v1?label=Layer&amp;message=developer-tools&amp;color=525252"></a>
@@ -14,7 +14,7 @@
 <a href="https://github.com/groupsum/readme-standards/blob/master/NOTICE"><img alt="Notice: attribution" src="https://img.shields.io/static/v1?label=Notice&amp;message=attribution&amp;color=525252"></a>
 </p>
 <p align="center">
-<a href="https://pypi.org/project/readme-standards/"><img alt="pypi downloads: readme-standards: unpublished" src="https://img.shields.io/static/v1?label=pypi%20downloads&amp;message=readme-standards%3A%20unpublished&amp;color=525252"></a>
+<a href="https://pypi.org/project/readme-standards/"><img alt="Monthly PyPI downloads: readme-standards" src="https://img.shields.io/pypi/dm/readme-standards"></a>
 <a href="https://github.com/groupsum/readme-standards/blob/master/README.md"><img alt="README hits: readme-standards" src="https://hits.sh/github.com/groupsum/readme-standards/README.md.svg?label=README%20hits"></a>
 </p>
 <p align="center">
@@ -63,37 +63,31 @@ The plugin does not certify the quality or truth of arbitrary prose, award exter
 
 ### Prerequisites
 
-Python 3.11 or later is required. Git is needed to install directly from this repository before a registry release. Example execution additionally requires venv and pip plus access to the dependencies of the selected wheel.
+Python 3.11 or later is required. Install the published distribution as a development dependency; Git is needed only for source development. Example execution additionally requires venv and pip plus access to the dependencies of the selected wheel.
 
 ### Installation
 
 #### uv
 
 <!-- readme-standards:begin installation.uv -->
-`readme-standards` is not declared published. From the source checkout:
-
 ```bash
-uv pip install .
+uv add readme-standards
 ```
 <!-- readme-standards:end installation.uv -->
 
 #### pip
 
 <!-- readme-standards:begin installation.pip -->
-`readme-standards` is not declared published. From the source checkout:
-
 ```bash
-python -m pip install .
+python -m pip install readme-standards
 ```
 <!-- readme-standards:end installation.pip -->
 
 #### Poetry
 
 <!-- readme-standards:begin installation.poetry -->
-`readme-standards` is not declared published. From a separate Poetry project, replace the path with your checkout:
-
 ```bash
-poetry add /path/to/readme-standards
+poetry add readme-standards
 ```
 <!-- readme-standards:end installation.poetry -->
 
@@ -268,7 +262,7 @@ Clone the repository, run `uv sync --group dev`, then `uv run pytest --readme-st
 
 ### Notes for Maintainers
 
-Keep schema, policy, renderer, tests, and docs synchronized. Run render when example formatting or package metadata changes. A changed heading contract needs a new policy identifier. The package is initially distributed from Git; no PyPI release is claimed by this repository creation.
+Keep schema, policy, renderer, tests, and docs synchronized. Run render when example formatting or package metadata changes. A changed heading contract needs a new policy identifier. Release through the tag-scoped Trusted Publishing workflow documented in docs/release.md; verify artifacts and a clean install after each publication.
 
 ---
 

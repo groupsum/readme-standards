@@ -1,0 +1,57 @@
+name: Publish to PyPI
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pypi-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.13.6'
+      - name: Require an immutable version tag
+        env:
+          RELEASE_REF: ${{ github.ref }}
+        run: |
+          python - <<'PY'
+          import os, pathlib, tomllib
+          version = tomllib.loads(pathlib.Path('pyproject.toml').read_text())['project']['version']
+          assert os.environ['RELEASE_REF'] == f'refs/tags/v{version}', 'Dispatch this workflow on its version tag'
+          PY
+      - run: uv sync --locked --group dev
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run pytest --readme-standards
+      - run: uv build
+      - run: uv run twine check dist/*
+      - run: uv run readme-standards check --wheel dist/readme_standards-0.1.0-py3-none-any.whl
+      - run: uv run readme-standards examples --wheel dist/readme_standards-0.1.0-py3-none-any.whl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pypi-distributions
+          path: dist/*
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    uses: cobycloud/actions/.github/workflows/reusable-pypi-publish.yml@64fbe4c42d7e6f3e51f4843b4603fde776b89b7e
+    with:
+      environment: pypi
+      publish-mode: trusted
+      artifact-name: pypi-distributions
+      packages-dir: dist
+      skip-existing: false

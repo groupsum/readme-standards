@@ -58,7 +58,7 @@ notice_file = "NOTICE"
 
 [tool.readme_standards.distributions.pypi]
 name = "readme-standards"
-published = false
+published = true
 
 [tool.readme_standards.examples.quick_start]
 source = "examples/quick_start.py"
