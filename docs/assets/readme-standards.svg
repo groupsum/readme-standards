@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="144" viewBox="0 0 640 144" role="img" aria-labelledby="title desc">
+  <title id="title">Groupsum README Standards</title>
+  <desc id="desc">A document with an ordered heading tree beside the README Standards name.</desc>
+  <rect width="640" height="144" rx="18" fill="#14213d"/>
+  <rect x="24" y="24" width="76" height="96" rx="8" fill="#f8fafc"/>
+  <path d="M40 46h42M40 64h30M48 82h34M48 100h26" stroke="#147d64" stroke-width="6" stroke-linecap="round"/>
+  <text x="122" y="60" font-family="Arial,sans-serif" font-size="18" fill="#8cdec6">GROUPSUM</text>
+  <text x="122" y="99" font-family="Arial,sans-serif" font-size="36" font-weight="700" fill="#ffffff">README Standards</text>
+</svg>

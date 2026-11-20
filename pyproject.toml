@@ -1,0 +1,91 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "readme-standards"
+version = "0.1.0"
+description = "Versioned package README generation, authoring checks, and pytest gates."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{name = "Groupsum"}]
+dependencies = ["markdown-it-py>=3,<5", "jsonschema>=4.23,<5", "packaging>=24", "pytest>=8,<10"]
+classifiers = ["Framework :: Pytest", "Programming Language :: Python :: 3", "Topic :: Software Development :: Quality Assurance"]
+
+[project.urls]
+Homepage = "https://github.com/groupsum/readme-standards"
+Repository = "https://github.com/groupsum/readme-standards"
+Documentation = "https://github.com/groupsum/readme-standards/tree/master/docs"
+Issues = "https://github.com/groupsum/readme-standards/issues"
+
+[project.scripts]
+readme-standards = "readme_standards.cli:main"
+
+[project.entry-points.pytest11]
+readme_standards = "readme_standards.pytest_plugin"
+
+[dependency-groups]
+dev = ["build>=1.2", "ruff>=0.9", "pytest-cov>=6", "twine>=6"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/readme_standards"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.readme_standards]
+policy = "package-guide-v1"
+readme = "README.md"
+brand = "groupsum"
+brand_catalog = "docs/brands.toml"
+repository = "https://github.com/groupsum/readme-standards"
+ref = "master"
+package_path = "."
+layer = "developer-tools"
+lifecycle = "active"
+license_file = "LICENSE"
+notice_file = "NOTICE"
+
+[tool.readme_standards.distributions.pypi]
+name = "readme-standards"
+published = false
+
+[tool.readme_standards.examples.quick_start]
+source = "examples/quick_start.py"
+expected_stdout = "examples/quick_start.stdout"
+test = "tests/test_examples.py"
+
+[tool.readme_standards.examples.usage]
+source = "examples/usage.py"
+expected_stdout = "examples/usage.stdout"
+test = "tests/test_examples.py"
+
+[tool.readme_standards.statuses.readme]
+label = "CI gate"
+url = "https://github.com/groupsum/readme-standards/actions/workflows/ci.yml"
+
+[tool.readme_standards.statuses.tests]
+label = "repository CI"
+url = "https://github.com/groupsum/readme-standards/actions/workflows/ci.yml"
+
+[tool.readme_standards.statuses.certification]
+label = "not certified"
+url = "https://github.com/groupsum/readme-standards/blob/master/README.md#certification-status"
+
+[tool.readme_standards.statuses.governance]
+label = "repository policy"
+url = "https://github.com/groupsum/readme-standards/blob/master/GOVERNANCE.md"
+
+[tool.readme_standards.statuses.evidence]
+label = "test suite"
+url = "https://github.com/groupsum/readme-standards/actions/workflows/ci.yml"

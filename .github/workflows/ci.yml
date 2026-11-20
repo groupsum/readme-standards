@@ -1,0 +1,50 @@
+name: README standards CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: readme-standards-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Python ${{ matrix.python }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ['3.11', '3.12', '3.13', '3.14']
+        include:
+          - os: windows-latest
+            python: '3.13'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.13.6'
+          enable-cache: true
+      - run: uv sync --locked --group dev --python ${{ matrix.python }}
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run pytest --readme-standards --junitxml=test-results.xml
+      - run: uv build
+      - run: uv run twine check dist/*
+      - run: uv run readme-standards check --wheel dist/readme_standards-0.1.0-py3-none-any.whl
+      - name: Test installed wheel and pytest entry point
+        run: uv run --isolated --no-project --with ./dist/readme_standards-0.1.0-py3-none-any.whl pytest --readme-standards -q
+      - run: uv run readme-standards examples --wheel dist/readme_standards-0.1.0-py3-none-any.whl
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-${{ matrix.os }}-${{ matrix.python }}
+          path: |
+            dist/*
+            test-results.xml

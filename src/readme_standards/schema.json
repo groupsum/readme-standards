@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/groupsum/readme-standards/master/src/readme_standards/schema.json",
+  "title": "tool.readme_standards configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["policy", "brand", "brand_catalog", "repository", "ref", "package_path", "layer", "lifecycle", "license_file", "distributions", "examples", "statuses"],
+  "properties": {
+    "policy": {"const": "package-guide-v1"},
+    "readme": {"type": "string", "minLength": 1, "default": "README.md"},
+    "brand": {"type": "string", "minLength": 1},
+    "brand_catalog": {"type": "string", "minLength": 1},
+    "repository": {"type": "string", "pattern": "^https://github\\.com/[^/]+/[^/#?]+$"},
+    "ref": {"type": "string", "minLength": 1},
+    "package_path": {"type": "string", "minLength": 1},
+    "layer": {"type": "string", "minLength": 1},
+    "lifecycle": {"enum": ["active", "experimental", "planning", "deprecated", "retired"]},
+    "license_file": {"type": "string", "minLength": 1},
+    "notice_file": {"type": "string", "minLength": 1},
+    "exclude": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true, "default": []},
+    "distributions": {
+      "type": "object", "additionalProperties": false, "minProperties": 1,
+      "properties": {
+        "pypi": {"$ref": "#/$defs/distribution"},
+        "crates": {"$ref": "#/$defs/distribution"},
+        "npm": {"$ref": "#/$defs/distribution"},
+        "ghcr": {"$ref": "#/$defs/distribution"}
+      }
+    },
+    "examples": {
+      "type": "object", "additionalProperties": false, "required": ["quick_start", "usage"],
+      "properties": {"quick_start": {"$ref": "#/$defs/example"}, "usage": {"$ref": "#/$defs/example"}}
+    },
+    "statuses": {
+      "type": "object", "additionalProperties": false,
+      "required": ["readme", "tests", "certification", "governance", "evidence"],
+      "properties": {
+        "readme": {"$ref": "#/$defs/status"},
+        "tests": {"$ref": "#/$defs/status"},
+        "certification": {
+          "allOf": [{"$ref": "#/$defs/status"}, {"properties": {"label": {"enum": ["not certified", "not applicable", "partial", "verified"]}}}]
+        },
+        "governance": {"$ref": "#/$defs/status"},
+        "evidence": {"$ref": "#/$defs/status"}
+      }
+    }
+  },
+  "$defs": {
+    "distribution": {
+      "type": "object", "additionalProperties": false, "required": ["name", "published"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9@][A-Za-z0-9@._/-]*$"},
+        "published": {"type": "boolean"},
+        "downloads_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "downloads_image": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "downloads_label": {"type": "string", "minLength": 1}
+      },
+      "dependentRequired": {
+        "downloads_url": ["downloads_image", "downloads_label"],
+        "downloads_image": ["downloads_url", "downloads_label"],
+        "downloads_label": ["downloads_url", "downloads_image"]
+      }
+    },
+    "example": {
+      "type": "object", "additionalProperties": false, "required": ["source", "expected_stdout", "test"],
+      "properties": {
+        "source": {"type": "string", "minLength": 1},
+        "expected_stdout": {"type": "string", "minLength": 1},
+        "test": {"type": "string", "minLength": 1},
+        "language": {"type": "string", "pattern": "^[a-zA-Z0-9_+-]+$", "default": "python"},
+        "timeout": {"type": "integer", "minimum": 1, "maximum": 300, "default": 30}
+      }
+    },
+    "status": {
+      "type": "object", "additionalProperties": false, "required": ["label", "url"],
+      "properties": {
+        "label": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "evidence_file": {"type": "string", "minLength": 1}
+      },
+      "allOf": [{"if": {"properties": {"label": {"enum": ["verified", "partial", "passed", "passing"]}}}, "then": {"required": ["evidence_file"]}}]
+    }
+  }
+}
