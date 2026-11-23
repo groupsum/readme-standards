@@ -10,6 +10,38 @@ from .document import PARSER, block, parse, region_errors
 from .policy import SECTIONS
 
 REGISTRY_ORDER = ("pypi", "crates", "npm", "ghcr")
+LABEL_COLOR = "1E293B"
+BLUE = "1D4ED8"
+CYAN = "0E7490"
+TEAL = "0F766E"
+VIOLET = "6D28D9"
+INDIGO = "4338CA"
+PLUM = "86198F"
+GREEN = "166534"
+AMBER = "92400E"
+RED = "991B1B"
+SLATE = "475569"
+
+REGISTRY_COLORS = {"pypi": BLUE, "crates": "9A3412", "npm": "B91C1C", "ghcr": VIOLET}
+REGISTRY_DOWNLOADS = {
+    "pypi": ("Monthly PyPI downloads", "pypi/dm"),
+    "crates": ("Total crates.io downloads", "crates/d"),
+    "npm": ("Monthly npm downloads", "npm/dm"),
+}
+LIFECYCLE_COLORS = {
+    "active": GREEN,
+    "experimental": VIOLET,
+    "planning": BLUE,
+    "deprecated": AMBER,
+    "retired": RED,
+}
+CERTIFICATION_COLORS = {
+    "not certified": AMBER,
+    "not applicable": SLATE,
+    "partial": BLUE,
+    "verified": GREEN,
+}
+
 NAVIGATION = (
     ("Overview", "overview"),
     ("Installation", "installation"),
@@ -22,15 +54,22 @@ NAVIGATION = (
 )
 
 
-def badge(label: str, value: str, url: str, image: str | None = None) -> str:
-    if image is None:
-        image = "https://img.shields.io/static/v1?label=" + quote(label, safe="")
-        image += "&message=" + quote(value, safe="") + "&color=525252"
+def badge(label: str, value: str, url: str, image: str) -> str:
     return (
         f'<a href="{html.escape(url, quote=True)}"><img '
         f'alt="{html.escape(label + ": " + value, quote=True)}" '
         f'src="{html.escape(image, quote=True)}"></a>'
     )
+
+
+def shield_badge(label: str, value: str, url: str, color: str, *, path: str | None = None) -> str:
+    if path is None:
+        path = f"static/v1?label={quote(label, safe='')}&message={quote(value, safe='')}"
+        separator = "&"
+    else:
+        separator = "?"
+    image = f"https://img.shields.io/{path}{separator}labelColor={LABEL_COLOR}&color={color}"
+    return badge(label, value, url, image)
 
 
 def registry_url(registry: str, name: str) -> str:
@@ -53,11 +92,19 @@ def branding(package: Package) -> str:
         name = distribution["name"]
         url = registry_url(registry, name)
         published = distribution["published"]
-        image = None
+        path = None
         if published and registry != "ghcr":
             prefix = {"pypi": "pypi/v", "crates": "crates/v", "npm": "npm/v"}[registry]
-            image = f"https://img.shields.io/{prefix}/{quote(name, safe='')}"
-        facts.append(badge(registry, name if published else f"{name} unpublished", url, image))
+            path = f"{prefix}/{quote(name, safe='')}"
+        facts.append(
+            shield_badge(
+                registry,
+                name if published else f"{name} unpublished",
+                url,
+                REGISTRY_COLORS[registry] if published else AMBER,
+                path=path,
+            )
+        )
         if published:
             custom = distribution.get("downloads_image")
             if custom:
@@ -66,55 +113,47 @@ def branding(package: Package) -> str:
                         distribution["downloads_label"], name, distribution["downloads_url"], custom
                     )
                 )
-            elif registry == "pypi":
+            elif registry in REGISTRY_DOWNLOADS:
+                label, prefix = REGISTRY_DOWNLOADS[registry]
                 metrics.append(
-                    badge(
-                        "Monthly PyPI downloads",
-                        name,
-                        url,
-                        f"https://img.shields.io/pypi/dm/{quote(name, safe='')}",
-                    )
-                )
-            elif registry == "npm":
-                metrics.append(
-                    badge(
-                        "Monthly npm downloads",
-                        name,
-                        url,
-                        f"https://img.shields.io/npm/dm/{quote(name, safe='')}",
-                    )
-                )
-            elif registry == "crates":
-                metrics.append(
-                    badge(
-                        "Total crates.io downloads",
-                        name,
-                        url,
-                        f"https://img.shields.io/crates/d/{quote(name, safe='')}",
-                    )
+                    shield_badge(label, name, url, CYAN, path=f"{prefix}/{quote(name, safe='')}")
                 )
             else:
-                metrics.append(badge("GHCR pull metrics", f"{name}: unavailable", url))
+                metrics.append(
+                    shield_badge("GHCR pull metrics", f"{name}: unavailable", url, SLATE)
+                )
         else:
-            metrics.append(badge(f"{registry} downloads", f"{name}: unpublished", url))
+            metrics.append(
+                shield_badge(f"{registry} downloads", f"{name}: unpublished", url, AMBER)
+            )
     manifest_url = package.source_url("pyproject.toml")
+    python = project.get("requires-python")
     facts.extend(
         [
-            badge("Source version", project["version"], manifest_url),
-            badge("Python", project.get("requires-python", "not declared"), manifest_url),
-            badge("Layer", settings["layer"], manifest_url),
-            badge(
+            shield_badge("Source version", project["version"], manifest_url, INDIGO),
+            shield_badge(
+                "Python",
+                python if python is not None else "not declared",
+                manifest_url,
+                TEAL if python is not None else SLATE,
+            ),
+            shield_badge("Layer", settings["layer"], manifest_url, VIOLET),
+            shield_badge(
                 "Lifecycle",
                 settings["lifecycle"],
                 package.source_url("README.md") + "#lifecycle-and-migration",
+                LIFECYCLE_COLORS[settings["lifecycle"]],
             ),
-            badge("License", project["license"], package.source_url(settings["license_file"])),
-            badge(
+            shield_badge(
+                "License", project["license"], package.source_url(settings["license_file"]), PLUM
+            ),
+            shield_badge(
                 "Notice",
                 "attribution" if "notice_file" in settings else "not required",
                 package.source_url(settings["notice_file"])
                 if "notice_file" in settings
                 else package.source_url(settings.get("readme", "README.md")) + "#notices",
+                PLUM if "notice_file" in settings else SLATE,
             ),
         ]
     )
@@ -134,17 +173,20 @@ def branding(package: Package) -> str:
             "README hits",
             package.name,
             readme_url,
-            f"https://hits.sh/{quote(identity, safe='/')}.svg?label=README%20hits",
+            f"https://hits.sh/{quote(identity, safe='/')}.svg?label=README%20hits"
+            f"&labelColor={LABEL_COLOR}&color={CYAN}",
         )
     )
+    statuses = settings["statuses"]
+    certification_color = CERTIFICATION_COLORS[statuses["certification"]["label"]]
     evidence = [
-        badge(label, settings["statuses"][key]["label"], settings["statuses"][key]["url"])
-        for key, label in (
-            ("readme", "README standards"),
-            ("tests", "Tests"),
-            ("certification", "Certification"),
-            ("governance", "Governance"),
-            ("evidence", "Evidence"),
+        shield_badge(label, statuses[key]["label"], statuses[key]["url"], color)
+        for key, label, color in (
+            ("readme", "README standards", BLUE),
+            ("tests", "Tests", TEAL),
+            ("certification", "Certification", certification_color),
+            ("governance", "Governance", INDIGO),
+            ("evidence", "Evidence", VIOLET),
         )
     ]
     rows = [

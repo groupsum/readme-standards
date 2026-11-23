@@ -34,6 +34,12 @@ an explicitly scoped custom metric is configured. Unpublished projects display u
 not a broken version badge or an invented zero. PyPI/npm/crates version badges are dynamic;
 GHCR shows the declared image identity without claiming a registry version lookup.
 
+Built-in badges use navy labels and different colors for registries, package facts,
+traffic, and verification. Active and verified states use green, deprecated and
+unpublished states use amber, and retired packages use red. Slate marks unavailable
+or inapplicable information. Every badge spells out its meaning in text, and custom
+metric images retain their provider's styling.
+
 Catalog example (shared path resolved relative to the package's pyproject.toml):
 
 ```toml

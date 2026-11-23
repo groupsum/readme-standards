@@ -1,3 +1,7 @@
+import html
+import re
+from urllib.parse import parse_qs, urlsplit
+
 import pytest
 
 from readme_standards.check import check
@@ -57,15 +61,61 @@ def test_render_only_changes_generated_regions(package):
 
 
 def test_badge_and_fragment_order_and_package_scope(package):
-    html = branding(package)
-    assert html.index("Source version:") < html.index("Python:") < html.index("Layer:")
-    assert html.index("Layer:") < html.index("Lifecycle:") < html.index("License:")
-    assert html.index("README standards:") < html.index("Tests:") < html.index("Certification:")
-    assert "hits.sh/github.com/groupsum/readme-standards/README.md.svg" in html
-    assert "example-package unpublished" in html
-    assert "pypi/dm/example-package" not in html
+    markup = branding(package)
+    assert markup.index("Source version:") < markup.index("Python:") < markup.index("Layer:")
+    assert markup.index("Layer:") < markup.index("Lifecycle:") < markup.index("License:")
+    assert (
+        markup.index("README standards:") < markup.index("Tests:") < markup.index("Certification:")
+    )
+    assert "hits.sh/github.com/groupsum/readme-standards/README.md.svg" in markup
+    assert "example-package unpublished" in markup
+    assert "pypi/dm/example-package" not in markup
     package.settings["distributions"]["pypi"]["published"] = True
     assert "pypi/dm/example-package" in branding(package)
+
+
+def test_palette_covers_static_badges_live_metrics_and_custom_images(package):
+    custom_image = "https://example.com/crate.svg?color=blue&format=flat"
+    package.settings["distributions"].update(
+        {
+            "crates": {
+                "name": "example-crate",
+                "published": True,
+                "downloads_image": custom_image,
+                "downloads_label": "Crate metrics",
+                "downloads_url": "https://example.com/crate",
+            },
+            "npm": {"name": "@example/pkg", "published": True},
+            "ghcr": {"name": "example/image", "published": True},
+        }
+    )
+    package.project.pop("requires-python")
+    package.settings.pop("notice_file")
+    markup = branding(package)
+    badge_images = {
+        html.unescape(alt).split(": ", 1)[0]: html.unescape(src)
+        for alt, src in re.findall(r'<img alt="([^"]+)" src="([^"]+)"', markup)
+    }
+    assert badge_images.pop("Crate metrics") == custom_image
+    colors = {}
+    for label, image in badge_images.items():
+        query = parse_qs(urlsplit(image).query)
+        assert query["labelColor"] == ["1E293B"]
+        colors[label] = query["color"][0]
+    assert colors["pypi"] == colors["pypi downloads"] == colors["Certification"] == "92400E"
+    assert colors["GHCR pull metrics"] == colors["Python"] == colors["Notice"] == "475569"
+    assert colors["Monthly npm downloads"] == colors["README hits"] == "0E7490"
+    assert len({colors[label] for label in ("npm", "crates", "ghcr")}) == 3
+    assert len({colors[label] for label in ("README standards", "Tests", "Evidence")}) == 3
+    assert urlsplit(badge_images["npm"]).path == "/npm/v/%40example%2Fpkg"
+
+
+def test_lifecycle_and_certification_colors_follow_declared_status(package):
+    package.settings["lifecycle"] = "retired"
+    package.settings["statuses"]["certification"]["label"] = "verified"
+    markup = branding(package)
+    assert 'message=retired&amp;labelColor=1E293B&amp;color=991B1B"' in markup
+    assert 'message=verified&amp;labelColor=1E293B&amp;color=166534"' in markup
 
 
 def test_wrong_badge_or_counter_cannot_pass(package):

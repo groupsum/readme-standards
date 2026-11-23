@@ -5,24 +5,24 @@
 <p align="center"><strong>readme-standards</strong></p>
 <p align="center">Versioned package README generation, authoring checks, and pytest gates.</p>
 <p align="center">
-<a href="https://pypi.org/project/readme-standards/"><img alt="pypi: readme-standards" src="https://img.shields.io/pypi/v/readme-standards"></a>
-<a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Source version: 0.1.1" src="https://img.shields.io/static/v1?label=Source%20version&amp;message=0.1.1&amp;color=525252"></a>
-<a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Python: &gt;=3.11" src="https://img.shields.io/static/v1?label=Python&amp;message=%3E%3D3.11&amp;color=525252"></a>
-<a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Layer: developer-tools" src="https://img.shields.io/static/v1?label=Layer&amp;message=developer-tools&amp;color=525252"></a>
-<a href="https://github.com/groupsum/readme-standards/blob/master/README.md#lifecycle-and-migration"><img alt="Lifecycle: active" src="https://img.shields.io/static/v1?label=Lifecycle&amp;message=active&amp;color=525252"></a>
-<a href="https://github.com/groupsum/readme-standards/blob/master/LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/static/v1?label=License&amp;message=Apache-2.0&amp;color=525252"></a>
-<a href="https://github.com/groupsum/readme-standards/blob/master/NOTICE"><img alt="Notice: attribution" src="https://img.shields.io/static/v1?label=Notice&amp;message=attribution&amp;color=525252"></a>
+<a href="https://pypi.org/project/readme-standards/"><img alt="pypi: readme-standards" src="https://img.shields.io/pypi/v/readme-standards?labelColor=1E293B&amp;color=1D4ED8"></a>
+<a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Source version: 0.1.1" src="https://img.shields.io/static/v1?label=Source%20version&amp;message=0.1.1&amp;labelColor=1E293B&amp;color=4338CA"></a>
+<a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Python: &gt;=3.11" src="https://img.shields.io/static/v1?label=Python&amp;message=%3E%3D3.11&amp;labelColor=1E293B&amp;color=0F766E"></a>
+<a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Layer: developer-tools" src="https://img.shields.io/static/v1?label=Layer&amp;message=developer-tools&amp;labelColor=1E293B&amp;color=6D28D9"></a>
+<a href="https://github.com/groupsum/readme-standards/blob/master/README.md#lifecycle-and-migration"><img alt="Lifecycle: active" src="https://img.shields.io/static/v1?label=Lifecycle&amp;message=active&amp;labelColor=1E293B&amp;color=166534"></a>
+<a href="https://github.com/groupsum/readme-standards/blob/master/LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/static/v1?label=License&amp;message=Apache-2.0&amp;labelColor=1E293B&amp;color=86198F"></a>
+<a href="https://github.com/groupsum/readme-standards/blob/master/NOTICE"><img alt="Notice: attribution" src="https://img.shields.io/static/v1?label=Notice&amp;message=attribution&amp;labelColor=1E293B&amp;color=86198F"></a>
 </p>
 <p align="center">
-<a href="https://pypi.org/project/readme-standards/"><img alt="Monthly PyPI downloads: readme-standards" src="https://img.shields.io/pypi/dm/readme-standards"></a>
-<a href="https://github.com/groupsum/readme-standards/blob/master/README.md"><img alt="README hits: readme-standards" src="https://hits.sh/github.com/groupsum/readme-standards/README.md.svg?label=README%20hits"></a>
+<a href="https://pypi.org/project/readme-standards/"><img alt="Monthly PyPI downloads: readme-standards" src="https://img.shields.io/pypi/dm/readme-standards?labelColor=1E293B&amp;color=0E7490"></a>
+<a href="https://github.com/groupsum/readme-standards/blob/master/README.md"><img alt="README hits: readme-standards" src="https://hits.sh/github.com/groupsum/readme-standards/README.md.svg?label=README%20hits&amp;labelColor=1E293B&amp;color=0E7490"></a>
 </p>
 <p align="center">
-<a href="https://github.com/groupsum/readme-standards/actions/workflows/ci.yml"><img alt="README standards: CI gate" src="https://img.shields.io/static/v1?label=README%20standards&amp;message=CI%20gate&amp;color=525252"></a>
-<a href="https://github.com/groupsum/readme-standards/actions/workflows/ci.yml"><img alt="Tests: repository CI" src="https://img.shields.io/static/v1?label=Tests&amp;message=repository%20CI&amp;color=525252"></a>
-<a href="https://github.com/groupsum/readme-standards/blob/master/README.md#certification-status"><img alt="Certification: not certified" src="https://img.shields.io/static/v1?label=Certification&amp;message=not%20certified&amp;color=525252"></a>
-<a href="https://github.com/groupsum/readme-standards/blob/master/GOVERNANCE.md"><img alt="Governance: repository policy" src="https://img.shields.io/static/v1?label=Governance&amp;message=repository%20policy&amp;color=525252"></a>
-<a href="https://github.com/groupsum/readme-standards/actions/workflows/ci.yml"><img alt="Evidence: test suite" src="https://img.shields.io/static/v1?label=Evidence&amp;message=test%20suite&amp;color=525252"></a>
+<a href="https://github.com/groupsum/readme-standards/actions/workflows/ci.yml"><img alt="README standards: CI gate" src="https://img.shields.io/static/v1?label=README%20standards&amp;message=CI%20gate&amp;labelColor=1E293B&amp;color=1D4ED8"></a>
+<a href="https://github.com/groupsum/readme-standards/actions/workflows/ci.yml"><img alt="Tests: repository CI" src="https://img.shields.io/static/v1?label=Tests&amp;message=repository%20CI&amp;labelColor=1E293B&amp;color=0F766E"></a>
+<a href="https://github.com/groupsum/readme-standards/blob/master/README.md#certification-status"><img alt="Certification: not certified" src="https://img.shields.io/static/v1?label=Certification&amp;message=not%20certified&amp;labelColor=1E293B&amp;color=92400E"></a>
+<a href="https://github.com/groupsum/readme-standards/blob/master/GOVERNANCE.md"><img alt="Governance: repository policy" src="https://img.shields.io/static/v1?label=Governance&amp;message=repository%20policy&amp;labelColor=1E293B&amp;color=4338CA"></a>
+<a href="https://github.com/groupsum/readme-standards/actions/workflows/ci.yml"><img alt="Evidence: test suite" src="https://img.shields.io/static/v1?label=Evidence&amp;message=test%20suite&amp;labelColor=1E293B&amp;color=6D28D9"></a>
 </p>
 <p align="center"><a href="#overview">Overview</a> · <a href="#installation">Installation</a> · <a href="#quick-start">Quick Start</a> · <a href="#usage">Usage</a> · <a href="#public-api-and-import-surfaces">API</a> · <a href="#contributing">Contributing</a> · <a href="#governance">Governance</a> · <a href="#license">License</a></p>
 <!-- readme-standards:end branding -->
