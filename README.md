@@ -6,7 +6,7 @@
 <p align="center">Versioned package README generation, authoring checks, and pytest gates.</p>
 <p align="center">
 <a href="https://pypi.org/project/readme-standards/"><img alt="pypi: readme-standards" src="https://img.shields.io/pypi/v/readme-standards?labelColor=1E293B&amp;color=1D4ED8"></a>
-<a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Source version: 0.1.1" src="https://img.shields.io/static/v1?label=Source%20version&amp;message=0.1.1&amp;labelColor=1E293B&amp;color=4338CA"></a>
+<a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Source version: 0.1.2" src="https://img.shields.io/static/v1?label=Source%20version&amp;message=0.1.2&amp;labelColor=1E293B&amp;color=4338CA"></a>
 <a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Python: &gt;=3.11" src="https://img.shields.io/static/v1?label=Python&amp;message=%3E%3D3.11&amp;labelColor=1E293B&amp;color=0F766E"></a>
 <a href="https://github.com/groupsum/readme-standards/blob/master/pyproject.toml"><img alt="Layer: developer-tools" src="https://img.shields.io/static/v1?label=Layer&amp;message=developer-tools&amp;labelColor=1E293B&amp;color=6D28D9"></a>
 <a href="https://github.com/groupsum/readme-standards/blob/master/README.md#lifecycle-and-migration"><img alt="Lifecycle: active" src="https://img.shields.io/static/v1?label=Lifecycle&amp;message=active&amp;labelColor=1E293B&amp;color=166534"></a>

@@ -101,7 +101,7 @@ Reviewed exclude patterns are needed for non-distributable fixtures and retired 
 ## Installation
 
 ```bash
-uv add --dev "readme-standards==0.1.1"
+uv add --dev "readme-standards==0.1.2"
 ```
 
 Commit the resulting dependency lock. For source development, use an explicit Git revision
