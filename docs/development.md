@@ -49,8 +49,8 @@ uv run ruff format --check .
 uv run pytest --readme-standards
 uv build
 uv run twine check dist/*
-uv run readme-standards check --wheel dist/readme_standards-0.1.2-py3-none-any.whl
-uv run readme-standards examples --wheel dist/readme_standards-0.1.2-py3-none-any.whl
+uv run readme-standards check --wheel dist/readme_standards-0.1.3-py3-none-any.whl
+uv run readme-standards examples --wheel dist/readme_standards-0.1.3-py3-none-any.whl
 ```
 
 The final command installs the wheel and its normal dependencies in a new temporary venv,
