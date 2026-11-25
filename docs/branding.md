@@ -25,6 +25,8 @@ contains all of the following, in order. No additional Markdown heading is intro
 | 18 | Navigation | Overview · Installation · Quick Start · Usage · API · Contributing · Governance · License |
 
 Badge rows group 4–10 (package facts), 11–12 (metrics), and 13–17 (checks/governance).
+An optional SSOT Governance badge follows the Evidence badge, and optional community
+badges get their own row before navigation.
 The artwork, identity, description, and navigation each have their own centered row.
 Exactly one horizontal rule follows the fragment before Overview.
 
@@ -55,3 +57,6 @@ so registry renderers do not need this plugin. Static checks compare the exact f
 against declared inputs. They do not fetch remote images, validate external service counts,
 or prove a linked report's truth. Positive status labels require matching local evidence;
 review remains necessary. Private repositories may need a public brand-asset host.
+
+See [badge configuration](configuration.md#optional-community-and-ssot-governance-badges)
+for community links and publishing SSOT Registry validation results.

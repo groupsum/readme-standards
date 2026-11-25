@@ -62,6 +62,56 @@ This record establishes declared evidence identity, not an independently verifie
 Use immutable CI artifact/report URLs and record more provenance in your repository's
 evidence format where needed. The plugin never upgrades a claim just because a link exists.
 
+## Optional community and SSOT Governance badges
+
+```toml
+[tool.readme_standards.community]
+discord = "https://discord.gg/example"
+crude = "https://crude.dev/"
+github_discussions = "https://github.com/example/project/discussions"
+
+[tool.readme_standards.ssot_governance]
+scope = "repository"
+report_url = "https://example.org/governance/validation.json"
+badge_endpoint = "https://example.org/governance/badge.json"
+```
+
+Configure only the community links you want to display. Discord renders a Join
+badge and the other links render Discuss badges. Run `readme-standards render --write`
+after changing the configuration. The Governance policy link remains available.
+
+The SSOT Governance badge links to the CI validation report and reads its display
+state from a public Shields JSON endpoint. Use a distinct report and endpoint for
+each scope and branch you publish. For repository scope, use `.` as the report's
+`package_path`. For package scope, use the configured package path and validate
+that package's registry.
+
+Run SSOT Registry validation in the target checkout and wrap the JSON result in
+the publishing job. The following example uses `jq` in a repository-scoped job.
+Set `SSOT_POLICY_VERSION` to the version of the
+validation rules used for this run and provide `EXPECTED_COMMIT` and
+`EXPECTED_POLICY_VERSION` from the publication target.
+
+```sh
+ssot-registry --output-format json validate . > registry-validation.json || test "$?" -eq 1
+
+jq -n --arg repository https://github.com/example/project \
+  --arg commit "$(git rev-parse HEAD)" --arg policy "$SSOT_POLICY_VERSION" \
+  --slurpfile validation registry-validation.json \
+  '{repository: $repository, scope: "repository", package_path: ".", commit: $commit,
+    policy_version: $policy, validation: $validation[0]}' > validation.json
+
+readme-standards ssot-badge --report validation.json \
+  --commit "$EXPECTED_COMMIT" --policy-version "$EXPECTED_POLICY_VERSION" > badge.json
+```
+
+Publish both files to the configured URLs, including when Registry validation
+reports findings. The converter emits `passing` or `failing` for a matching
+commit and policy version, or `stale` for an older or different result. Recompute
+against the current target whenever it moves so the hosted state reflects
+freshness. An invalid or cross-scope report exits with an error. The publishing
+job controls updates and public access to the report and endpoint.
+
 ## Complete working configuration
 
 The repository's [pyproject.toml](../pyproject.toml) exercises the full configuration.
@@ -101,7 +151,7 @@ Reviewed exclude patterns are needed for non-distributable fixtures and retired 
 ## Installation
 
 ```bash
-uv add --dev "readme-standards==0.1.3"
+uv add --dev "readme-standards==0.1.4"
 ```
 
 Commit the resulting dependency lock. For source development, use an explicit Git revision

@@ -41,6 +41,11 @@ CERTIFICATION_COLORS = {
     "partial": BLUE,
     "verified": GREEN,
 }
+COMMUNITY_BADGES = (
+    ("discord", "Discord", "Join", "5865F2"),
+    ("crude", "Crude", "Discuss", INDIGO),
+    ("github_discussions", "GitHub Discussions", "Discuss", SLATE),
+)
 
 NAVIGATION = (
     ("Overview", "overview"),
@@ -189,6 +194,21 @@ def branding(package: Package) -> str:
             ("evidence", "Evidence", VIOLET),
         )
     ]
+    if governance := settings.get("ssot_governance"):
+        endpoint = quote(governance["badge_endpoint"], safe="")
+        evidence.append(
+            badge(
+                "SSOT Governance",
+                f"{governance['scope']} validation report",
+                governance["report_url"],
+                f"https://img.shields.io/endpoint?url={endpoint}",
+            ),
+        )
+    community = [
+        shield_badge(label, action, url, color)
+        for key, label, action, color in COMMUNITY_BADGES
+        if (url := settings.get("community", {}).get(key))
+    ]
     rows = [
         f'<p align="center"><a href="{html.escape(brand["homepage"], quote=True)}">'
         f'<img src="{html.escape(brand["logo_url"], quote=True)}" '
@@ -197,7 +217,9 @@ def branding(package: Package) -> str:
         f'<p align="center">{html.escape(project.get("description", ""))}</p>',
     ]
     rows.extend(
-        '<p align="center">\n' + "\n".join(row) + "\n</p>" for row in (facts, metrics, evidence)
+        '<p align="center">\n' + "\n".join(row) + "\n</p>"
+        for row in (facts, metrics, evidence, community)
+        if row
     )
     rows.append(
         '<p align="center">'

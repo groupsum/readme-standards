@@ -10,6 +10,7 @@ from .check import check_package
 from .config import ConfigurationError, discover, load_package, schema
 from .policy import outline
 from .render import diff, render, repair
+from .ssot import ssot_badge
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -29,6 +30,11 @@ def main(argv: list[str] | None = None) -> int:
         if name in {"check", "examples"}:
             command.add_argument("--wheel", type=Path, required=name == "examples")
     sub.add_parser("schema")
+    command = sub.add_parser("ssot-badge", help="convert an SSOT validation report to Shields JSON")
+    command.add_argument("--root", type=Path, default=Path.cwd())
+    command.add_argument("--report", type=Path, required=True)
+    command.add_argument("--commit", required=True, help="full commit SHA expected for this badge")
+    command.add_argument("--policy-version", required=True, help="expected SSOT validation policy")
     command = sub.add_parser("outline")
     command.add_argument("--package", default="<package name>")
     command.add_argument("--format", choices=("markdown", "json"), default="markdown")
@@ -36,6 +42,11 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.command == "schema":
             print(json.dumps(schema(), indent=2))
+            return 0
+        if args.command == "ssot-badge":
+            package = load_package(args.root)
+            report = json.loads(args.report.read_text("utf-8-sig"))
+            print(json.dumps(ssot_badge(package, report, args.commit, args.policy_version)))
             return 0
         if args.command == "outline":
             rows = outline(args.package)

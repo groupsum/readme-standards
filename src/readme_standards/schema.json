@@ -18,6 +18,23 @@
     "license_file": {"type": "string", "minLength": 1},
     "notice_file": {"type": "string", "minLength": 1},
     "exclude": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true, "default": []},
+    "community": {
+      "type": "object", "additionalProperties": false, "minProperties": 1,
+      "properties": {
+        "discord": {"$ref": "#/$defs/https_url"},
+        "crude": {"$ref": "#/$defs/https_url"},
+        "github_discussions": {"$ref": "#/$defs/https_url"}
+      }
+    },
+    "ssot_governance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["scope", "report_url", "badge_endpoint"],
+      "properties": {
+        "scope": {"enum": ["repository", "package"]},
+        "report_url": {"$ref": "#/$defs/https_url"},
+        "badge_endpoint": {"$ref": "#/$defs/https_url"}
+      }
+    },
     "distributions": {
       "type": "object", "additionalProperties": false, "minProperties": 1,
       "properties": {
@@ -46,6 +63,7 @@
     }
   },
   "$defs": {
+    "https_url": {"type": "string", "format": "uri", "pattern": "^https://[^/?#]+"},
     "distribution": {
       "type": "object", "additionalProperties": false, "required": ["name", "published"],
       "properties": {
